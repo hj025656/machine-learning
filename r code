@@ -1,0 +1,30 @@
+install.packages(c('neuralnet','keras','tensorflow'),dependencies = T)
+
+library(tidyverse)
+library(neuralnet)
+library(caret)
+library(dplyr)
+
+head(iris)
+iris
+
+NN = neuralnet(Species ~ ., iris, hidden = c(5,3))
+
+#plot neural network
+plot(NN)
+
+pred = neuralnet::compute(NN, iris[,c(1,2,3,4)])
+
+pred.2 <- data.frame()
+for(i in 1:150){
+  pred.2 <- rbind(pred.2, which.max(pred$net.result[i,]))
+}
+
+pred.2$X1L <- gsub(1, "setosa", pred.2$X1L)
+pred.2$X1L <- gsub(2, "versicolor", pred.2$X1L)
+pred.2$X1L <- gsub(3, "virginica", pred.2$X1L)
+
+predictioni <- as.factor(pred.2$X1L)
+reference <- iris[,5]
+
+confusionMatrix(prediction, reference)
