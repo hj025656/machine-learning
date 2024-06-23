@@ -5,6 +5,7 @@ library(neuralnet)
 library(caret)
 library(dplyr)
 
+#r에서 기본 예시로 제공되는 데이터 
 head(iris)
 iris
 
